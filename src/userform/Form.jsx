@@ -10,6 +10,7 @@ export default function Form() {
 // useState, set html input value and updates value as well
     const [input, setInput] = useState({first:'', last:'',phone:'', email:''})
     const [dataForm, setDataForm] = useState([])
+    // const [readOnly, setReadOnly] = useState("")
 
    
     // want to use map to make a new array during each submit to the table
@@ -23,12 +24,19 @@ export default function Form() {
     const handleSubmit = (e) => {
         e.preventDefault()
         setDataForm([...dataForm, {input}])
-        log(input,'data we entered' )
-        log('Object data array',dataForm)
+        // log(input,'data we entered' )
+        // log('Object data array',dataForm)
     }
 
     const deleteRow = (index) => {
-        log(index, "this row wants to be deleted!")
+        const total = [...dataForm]
+        total.splice(index, 1)
+        setDataForm(total)
+        log(input, "this row wants to be deleted!")
+    }
+
+    const editRow = (index) => {
+        log(index, "this row wants an edit")
     }
     
   
@@ -37,7 +45,7 @@ export default function Form() {
             <form onSubmit={handleSubmit}>
                 <label htmlFor="names" className="title">Name:</label>
                 <label> First Name </label>
-                <input  name="first" type="text" id="name" value={input.first} onChange={handleOnChange}/>
+                <input  name="first" type="text" id="name" value={input.first} onChange={handleOnChange} />
                 <label> Last Name</label>
                 <input name="last" type="text" id="name" value={input.last} onChange={handleOnChange} />
 
@@ -67,7 +75,7 @@ export default function Form() {
                         <td>{data.input.last}</td>
                         <td>{data.input.phone}</td>
                         <td>{data.input.email}</td>
-                        <td><button>Edit</button> <button onClick={deleteRow}>Delete</button></td>
+                        <td><button onClick={editRow}>Edit</button> <button onClick={deleteRow}>Delete</button></td>
 
 
                     </tr>
