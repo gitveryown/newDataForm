@@ -1,0 +1,44 @@
+input, select {
+    display: flex;
+    border: 2px solid rgb(19, 103, 229);
+    border-radius: 5px;
+    padding:10px;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 18vw;
+    padding:15px;
+    gap: 5px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.submit {
+    border-radius: 5px;
+    color:#fff;
+    background-color:rgb(19, 103, 229);
+    margin-top:5px;
+}
+
+table, td, th {
+    margin-top: 15px;
+    border: 1px solid black;
+  }
+  
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+th {
+    height: 50px;
+  }
+
+  tr{
+    height: 3rem;
+  }
+ 
