@@ -1,6 +1,5 @@
 'use client'
 import { useState } from "react";
-import PhoneInput from "react-phone-number-input/input";
 import './form.css'
 
 
@@ -16,14 +15,20 @@ export default function Form() {
 // useState, set html input value and updates value as well
     const [input, setInput] = useState({first:'', last:'',phone:'', email:''})
     const [dataForm, setDataForm] = useState([])
-    const [editData, setEditData] = useState(false)
+   
+    const [editIndex, setEditIndex] = useState(-1)
+    
+
+
 
    
-    // want to use map to make a new array during each submit to the table
+    // want to use arrray.map to make a NEW array during each submit to the table
 
 // function that handles updates on the state's object
     const handleOnChange = (e) => {
     const {name, value} = e.target
+    // e.target.name && e.target.value
+
     setInput((previnput)=> ({...previnput, [name]:value})) 
   }
   
@@ -31,15 +36,26 @@ export default function Form() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setDataForm([...dataForm, {input}])
-        setInput({first:'', last:'', phone:'', email:''})
-        
+        if (editIndex !== -1){
+        // If editIndex is not -1, update existing entry
+        const updatedData = [... dataForm]
+        updatedData[editIndex] = { input }
+        setDataForm(updatedData)
+        setEditIndex(-1) // Reset editIndex
+        } else {
+        setDataForm( [...dataForm, { input }]) 
+        setInput ({ first: '', last: '', phone:'', email: '' })
+        }
     }
 
+
     const deleteRow = (index) => {
-        const total = [...dataForm]
-        total.splice(index, 1)
-        setDataForm(total)
+
+        const row = [...dataForm]
+        row.splice(index, 1)/* only mutuating the NEW array from table 
+        not the Original from form */
+        
+        setDataForm(row)
         log("I deleted index", index )
         
     }
@@ -47,17 +63,20 @@ export default function Form() {
     const editRow = (index) => {
        
         const access = dataForm[index].input
-        //how to set access data back to the input fields
-        setInput(access)
-        setEditData(true)
-        /* When data is resubmitted, data should only reflect that index */
         
+        
+        
+        setInput(access) //how to set access data back to the input fields
 
-        log( "This row wants an edit:",index, access)
+        setEditIndex(index) // set the index being edited
+
+        log( "This row wants an edit:",index, access, edit)
       
     }
     
-    
+    // option: if edit button is clicked return data back to index
+    // option: if editdata [index] isnt equal to dataform index return editdata back to index 
+
   
     return (
         <>
