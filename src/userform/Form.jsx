@@ -16,7 +16,7 @@ export default function Form() {
 
   const [editIndex, setEditIndex] = useState(-1);
 
-  const [duplicateError, setDuplicateError] = useState(false);
+  const [noDuplicate, setNoDuplicate] = useState(false);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +31,9 @@ export default function Form() {
 
     if (isDuplicateEmail) {
       alert("This email already exist, please edit or delete entry!");
-      setDuplicateError(true);
+      setNoDuplicate(false)
+      return false
+      ;
     }
     if (editIndex !== -1) {
       // If editIndex is not -1, update existing entry
@@ -42,9 +44,11 @@ export default function Form() {
     } else {
       setDataForm([...dataForm, { input }]);
       setInput({ first: "", last: "", phone: "", email: "" });
-      setDuplicateError(false);
+      setNoDuplicate(true);
+      return true
     }
   };
+
   const deleteRow = (index) => {
     const row = [...dataForm];
     row.splice(index, 1); /* only mutuating the NEW array from table 
@@ -121,15 +125,15 @@ export default function Form() {
           onChange={handleOnChange}
         />
 
-        {duplicateError && (
-          <p style={{ color: "red" }}>
-            Duplicate email entry. Please use a different email address.
-          </p>
-        )}
-
-        <button className="submit" type="submit">
+        <button className="submit" type="submit" disable={!noDuplicate}>
           submit
         </button>
+        <br />
+        {!noDuplicate && (
+          <span style={{ color: "red" }}>
+            Duplicate email entry. Please use a different email address.
+          </span>
+        )}
       </form>
 
       <table>
